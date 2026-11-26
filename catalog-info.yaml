@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: shared-team-blueprints
+  description: ArchiForge governed microservices architecture for Shared Team Blueprints
+  annotations:
+    archiforge.io/project-id: "proj-team-509fe427"
+    archiforge.io/workspace-id: "1f827252-808f-454d-bae3-9f57320d816a"
+    archiforge.io/archetype: "microservices"
+  tags:
+    - aws
+    - soc-2-type-ii
+    - iso-27001
+spec:
+  type: service
+  lifecycle: production
+  owner: team-team-root-4518bc07-212b-4c58-ab28-40ba541016b9-ef3724
+  providesApis:
+    - shared-team-blueprints-openapi

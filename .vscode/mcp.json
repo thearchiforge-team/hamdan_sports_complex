@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "archiforge": {
+      "url": "http://localhost:8000/api/mcp/project-context/proj-team-509fe427",
+      "headers": {
+        "X-ArchiForge-Project-Id": "proj-team-509fe427",
+        "X-ArchiForge-Workspace-Id": "1f827252-808f-454d-bae3-9f57320d816a"
+      },
+      "description": "Live ArchiForge Architecture & Tech Radar MCP Server for Shared Team Blueprints"
+    }
+  }
+}

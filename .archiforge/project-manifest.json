@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "generator": "The ArchiForge Governed Spec-to-Repo Engine",
+  "project_id": "proj-team-509fe427",
+  "project_name": "Shared Team Blueprints",
+  "workspace_id": "1f827252-808f-454d-bae3-9f57320d816a",
+  "workspace_name": "HSC_Core",
+  "archetype": "microservices",
+  "cloud_providers": [
+    "aws"
+  ],
+  "tech_stack": [
+    "Python 3.12",
+    "FastAPI",
+    "PostgreSQL 16"
+  ],
+  "databases": [
+    "PostgreSQL 16",
+    "Redis 7"
+  ],
+  "compliance_frameworks": [
+    "SOC 2 Type II",
+    "ISO 27001"
+  ],
+  "node_count": 0,
+  "edge_count": 0,
+  "erd_table_count": 2,
+  "checksums": {
+    "openapi_sha256_16": "b6e757367ca6bd76",
+    "hld_sha256_16": "d3f5bcb913fa190d"
+  },
+  "ide_integrations": {
+    "antigravity": [
+      "AGENTS.md",
+      ".agents/rules/archiforge-architecture.md",
+      ".vscode/mcp.json"
+    ],
+    "vscode_copilot": [
+      ".github/copilot-instructions.md",
+      ".vscode/mcp.json"
+    ],
+    "cursor": [
+      ".cursor/rules/archiforge-guardrails.mdc"
+    ],
+    "claude_code": [
+      "CLAUDE.md"
+    ]
+  },
+  "synchronized_at": "2026-11-26T14:41:14.449582Z"
+}
