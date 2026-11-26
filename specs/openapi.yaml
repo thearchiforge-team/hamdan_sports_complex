@@ -1,0 +1,164 @@
+openapi: 3.1.0
+info:
+  title: Shared Team Blueprints API
+  version: 1.0.0
+  description: ArchiForge governed OpenAPI 3.1 contract for Shared Team Blueprints
+servers:
+  - url: https://api.enterprise.internal
+    description: Production Gateway
+  - url: http://localhost:8000
+    description: Local Development
+paths:
+  /health:
+    get:
+      summary: Liveness & Readiness Probe
+      operationId: getHealth
+      tags: [System]
+      responses:
+        '200':
+          description: Service healthy
+  /v1/service-records:
+    get:
+      summary: List ServiceRecord records
+      operationId: listServiceRecords
+      tags: [ServiceRecord]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Paginated list of ServiceRecord items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceRecord'
+    post:
+      summary: Create a new ServiceRecord
+      operationId: createServiceRecord
+      tags: [ServiceRecord]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRecordCreate'
+      responses:
+        '201':
+          description: Created ServiceRecord
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceRecord'
+  /v1/audit-events:
+    get:
+      summary: List AuditEvent records
+      operationId: listAuditEvents
+      tags: [AuditEvent]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Paginated list of AuditEvent items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuditEvent'
+    post:
+      summary: Create a new AuditEvent
+      operationId: createAuditEvent
+      tags: [AuditEvent]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuditEventCreate'
+      responses:
+        '201':
+          description: Created AuditEvent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditEvent'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ServiceRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        external_ref:
+          type: string
+        status:
+          type: string
+        metadata_json:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ServiceRecordCreate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        external_ref:
+          type: string
+        status:
+          type: string
+        metadata_json:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    AuditEvent:
+      type: object
+      properties:
+        event_id:
+          type: string
+          format: uuid
+        record_id:
+          type: string
+          format: uuid
+        actor_id:
+          type: string
+        action_type:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    AuditEventCreate:
+      type: object
+      properties:
+        event_id:
+          type: string
+          format: uuid
+        record_id:
+          type: string
+          format: uuid
+        actor_id:
+          type: string
+        action_type:
+          type: string
+        created_at:
+          type: string
+          format: date-time

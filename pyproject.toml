@@ -1,0 +1,15 @@
+[project]
+name = "shared-team-blueprints"
+version = "0.1.0"
+description = "ArchiForge Governed FastAPI Service for Shared Team Blueprints"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "sqlalchemy>=2.0.35",
+    "alembic>=1.13.3",
+    "pydantic>=2.9.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
