@@ -1,4 +1,4 @@
-# Low-Level Design (LLD) — Shared Team Blueprints
+# Low-Level Design (LLD) — Hamdan Sports Complex Unified Arena & Academy Platform
 
 ## 1. API Contract
 All REST endpoints and payload schemas are defined in `specs/openapi.yaml` (OpenAPI 3.1.0).

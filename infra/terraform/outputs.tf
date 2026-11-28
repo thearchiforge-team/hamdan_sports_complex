@@ -1,4 +1,4 @@
 output "project_slug" {
-  value       = "shared-team-blueprints"
+  value       = "hamdan-sports-complex-unified-arena-academy-plat"
   description = "Canonical ArchiForge service identifier"
 }

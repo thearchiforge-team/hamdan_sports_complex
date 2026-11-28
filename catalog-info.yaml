@@ -1,14 +1,14 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: shared-team-blueprints
-  description: ArchiForge governed microservices architecture for Shared Team Blueprints
+  name: hamdan-sports-complex-unified-arena---academy-platform
+  description: Unified Microsoft Azure (UAE North) digital venue, ticketing, member access, and sports academy lane/court booking platform for Hamdan Sports Complex (15,000-seat multi-purpose Olympic arena & aquatics center in Dubai)
   annotations:
-    archiforge.io/project-id: "proj-team-509fe427"
+    archiforge.io/project-id: "proj-5148f57a"
     archiforge.io/workspace-id: "1f827252-808f-454d-bae3-9f57320d816a"
     archiforge.io/archetype: "microservices"
   tags:
-    - aws
+    - azure
     - soc-2-type-ii
     - iso-27001
 spec:
@@ -16,4 +16,4 @@ spec:
   lifecycle: production
   owner: team-team-root-4518bc07-212b-4c58-ab28-40ba541016b9-ef3724
   providesApis:
-    - shared-team-blueprints-openapi
+    - hamdan-sports-complex-unified-arena---academy-platform-openapi

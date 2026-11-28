@@ -1,2 +1,65 @@
 flowchart LR
-  %% Shared Team Blueprints — ArchiForge Synchronized Topology
+  %% Hamdan Sports Complex Unified Arena & Academy Platform — ArchiForge Synchronized Topology
+  n_ext_users["Audience Web/Mobile Ticketing App"]
+  n_ext_members["Member Wellness App & B2B Academy Portal"]
+  n_frontdoor["Azure Front Door Premium (CDN & WAF)"]
+  n_entraid["Microsoft Entra External ID (OIDC / UAE PASS)"]
+  n_ext_turnstiles["Smart Turnstiles & Poolside Kiosks (NFC/QR)"]
+  n_keyvault["Azure Key Vault Premium HSM (PCI-DSS Vault)"]
+  n_monitor["Azure Monitor & Application Insights"]
+  n_apim["Azure API Management (APIM Gateway)"]
+  n_appgw["Azure Application Gateway (WAF v2)"]
+  n_iot_hub["Azure IoT Hub (Turnstile & Timing Telemetry)"]
+  n_svc_events["Event & 3D Bowl Seat Inventory Service (AKS)"]
+  n_svc_booking["High-Concurrency Booking & Checkout Engine (AKS)"]
+  n_svc_membership["Membership & Smart-Wristband Access Service (ACA)"]
+  n_svc_academy["Academy & Pool Bulkhead Scheduling Service (AKS)"]
+  n_svc_notify["Notification & Digital Wallet Pass Service (Functions)"]
+  n_pg["Azure Database for PostgreSQL Flexible Server (HA)"]
+  n_redis["Azure Cache for Redis Enterprise (8-Min Seat Lock)"]
+  n_eventhubs["Azure Event Hubs / Service Bus (Domain Events)"]
+  n_adls["Azure Data Lake Storage Gen2 (Venue Analytics)"]
+  venues_and_zones["venues_and_zones"]
+  arena_events["arena_events"]
+  ticket_bookings["ticket_bookings"]
+  memberships["memberships"]
+  training_institutes["training_institutes"]
+  academy_lane_allocations["academy_lane_allocations"]
+  turnstile_access_logs["turnstile_access_logs"]
+  n_ext_users --> n_frontdoor
+  n_ext_members -->|"HTTPS Ingress"| n_frontdoor
+  n_ext_turnstiles -->|"Sub-150ms NFC/QR Scan"| n_iot_hub
+  n_frontdoor -->|"Private Link Origin"| n_appgw
+  n_appgw -->|"WAF Inspected Route"| n_apim
+  n_entraid -->|"OIDC / UAE PASS JWT"| n_apim
+  n_iot_hub -->|"Turnstile Verify"| n_svc_membership
+  n_apim --> n_svc_events
+  n_apim --> n_svc_booking
+  n_apim --> n_svc_membership
+  n_apim --> n_svc_academy
+  n_svc_events --> n_pg
+  n_svc_booking --> n_pg
+  n_svc_membership -->|"Read Bowl Inventory"| n_pg
+  n_svc_academy --> n_pg
+  n_svc_booking --> n_redis
+  n_svc_membership -->|"ACID Orders Write"| n_redis
+  n_svc_booking --> n_eventhubs
+  n_svc_academy -->|"Lane Allocations"| n_eventhubs
+  n_eventhubs -->|"Trigger Wallet Pass"| n_svc_notify
+  n_eventhubs -->|"Stream Venue Telemetry"| n_adls
+  n_svc_booking --> n_keyvault
+  n_svc_booking -->|"PCI Tokenization"| n_monitor
+  n_ext_members -->|"HTTPS"| n_svc_events
+  n_svc_events --> n_entraid
+  n_svc_membership --> n_entraid
+  n_svc_academy -->|"Authenticates"| n_entraid
+  n_svc_notify --> n_entraid
+  n_svc_notify --> n_pg
+  n_eventhubs -->|"Authenticates"| n_entraid
+  venues_and_zones --> arena_events
+  arena_events --> ticket_bookings
+  training_institutes --> academy_lane_allocations
+  venues_and_zones --> academy_lane_allocations
+  venues_and_zones --> turnstile_access_logs
+  memberships --> turnstile_access_logs
+  ticket_bookings --> turnstile_access_logs

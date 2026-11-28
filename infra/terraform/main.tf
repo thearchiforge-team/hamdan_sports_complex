@@ -1,30 +1,31 @@
 terraform {
   required_version = ">= 1.6.0"
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.50"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.110"
     }
   }
 }
 
-provider "aws" {
-  region = var.aws_region
-}
-
-resource "aws_kms_key" "workload_cmk" {
-  description             = "ArchiForge Customer-Managed KMS Key for shared-team-blueprints"
-  deletion_window_in_days = 30
-  enable_key_rotation     = true
-}
-
-resource "aws_vpc" "main" {
-  cidr_block           = "10.20.0.0/16"
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-  tags = {
-    Name        = "vpc-shared-team-blueprints-${var.environment}"
-    ManagedBy   = "ArchiForge"
-    Environment = var.environment
+provider "azurerm" {
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy = false
+    }
   }
+}
+
+resource "azurerm_resource_group" "main" {
+  name     = "rg-hamdan-sports-complex-unified-arena-academy-plat-${var.environment}"
+  location = var.location
+  tags     = var.common_tags
+}
+
+resource "azurerm_virtual_network" "main" {
+  name                = "vnet-hamdan-sports-complex-unified-arena-academy-plat-${var.environment}"
+  address_space       = ["10.10.0.0/16"]
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  tags                = var.common_tags
 }

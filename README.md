@@ -1,6 +1,6 @@
-# Shared Team Blueprints
+# Hamdan Sports Complex Unified Arena & Academy Platform
 
-> **Initialized & Governed by [The ArchiForge](https://thearchiforge.com)** • Project ID: `proj-team-509fe427`
+> **Initialized & Governed by [The ArchiForge](https://thearchiforge.com)** • Project ID: `proj-5148f57a`
 
 ## Repository Structure
 - `AGENTS.md` & `.agents/rules/archiforge-architecture.md` — **Antigravity** & Universal AI Coding Agent Guardrails
