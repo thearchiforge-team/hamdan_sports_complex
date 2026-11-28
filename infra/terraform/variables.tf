@@ -6,32 +6,21 @@ variable "environment" {
 
 variable "location" {
   type        = string
-  default     = "eastus2"
-  description = "Primary Azure region"
+  default     = "uaenorth"
+  description = "Primary Azure region (Data Residency compliant)"
 }
 
-variable "aws_region" {
+variable "dr_location" {
   type        = string
-  default     = "us-east-1"
-  description = "Primary AWS region"
-}
-
-variable "project_id" {
-  type        = string
-  default     = "enterprise-cloud-prod"
-  description = "GCP Project ID"
-}
-
-variable "region" {
-  type        = string
-  default     = "us-central1"
-  description = "Primary GCP region"
+  default     = "uaecentral"
+  description = "Paired Disaster Recovery Azure region (RTO <= 15m, RPO <= 5m)"
 }
 
 variable "common_tags" {
   type = map(string)
   default = {
-    ManagedBy = "ArchiForge"
-    Security  = "ZeroTrust-TLS13-KMS"
+    ManagedBy      = "ArchiForge"
+    Security       = "ZeroTrust-TLS13-HSM"
+    DataResidency  = "uaenorth"
   }
 }

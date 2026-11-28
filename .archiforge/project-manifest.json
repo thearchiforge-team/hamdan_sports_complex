@@ -30,7 +30,7 @@
   "edge_count": 37,
   "erd_table_count": 7,
   "checksums": {
-    "openapi_sha256_16": "745c146b65f98647",
+    "openapi_sha256_16": "a63a85d9d766d076",
     "hld_sha256_16": "027e8766257a4c81"
   },
   "ide_integrations": {
@@ -50,5 +50,5 @@
       "CLAUDE.md"
     ]
   },
-  "synchronized_at": "2026-11-28T08:45:00.490746Z"
+  "synchronized_at": "2026-11-28T09:29:51.638427Z"
 }

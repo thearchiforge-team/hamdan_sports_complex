@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.debugpy",
+    "42Crunch.vscode-openapi",
+    "hashicorp.terraform",
+    "bierner.markdown-mermaid",
+    "ms-azuretools.vscode-docker"
+  ]
+}

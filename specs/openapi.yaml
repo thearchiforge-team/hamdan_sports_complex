@@ -4,41 +4,74 @@ info:
   version: 1.0.0
   description: Unified Microsoft Azure (UAE North) digital venue, ticketing, member access, and sports academy lane/court booking platform for Hamdan Sports Complex (15,000-seat multi-purpose Olympic arena & aquatics center in Dubai)
 servers:
-  - url: https://api.enterprise.internal
-    description: Production Gateway
+  - url: https://api.hamdansportscomplex.ae
+    description: Azure Front Door Premium + API Management Production Gateway (UAE North)
   - url: http://localhost:8000
-    description: Local Development
+    description: Local Development & Contract Testing
 paths:
   /health:
     get:
-      summary: Liveness & Readiness Probe
+      summary: Liveness & Readiness Probe (DB + Redis + Key Vault KMS Health)
       operationId: getHealth
       tags: [System]
       responses:
         '200':
           description: Service healthy
-  /v1/venues-and-zones:
+  /api/v1/venues-and-zones:
     get:
-      summary: List VenuesAndZones records
+      summary: List VenuesAndZones records (Paginated & Filtered)
       operationId: listVenuesAndZoness
       tags: [VenuesAndZones]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/StatusFilterParam'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       responses:
         '200':
           description: Paginated list of VenuesAndZones items
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/VenuesAndZones'
+                type: object
+                required: [entity, table, total, limit, offset, items]
+                properties:
+                  entity:
+                    type: string
+                  table:
+                    type: string
+                  total:
+                    type: integer
+                    minimum: 0
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VenuesAndZones'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
     post:
       summary: Create a new VenuesAndZones
       operationId: createVenuesAndZones
       tags: [VenuesAndZones]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       requestBody:
         required: true
         content:
@@ -52,28 +85,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VenuesAndZones'
-  /v1/arena-events:
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/arena-events:
     get:
-      summary: List ArenaEvents records
+      summary: List ArenaEvents records (Paginated & Filtered)
       operationId: listArenaEventss
       tags: [ArenaEvents]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/StatusFilterParam'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       responses:
         '200':
           description: Paginated list of ArenaEvents items
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ArenaEvents'
+                type: object
+                required: [entity, table, total, limit, offset, items]
+                properties:
+                  entity:
+                    type: string
+                  table:
+                    type: string
+                  total:
+                    type: integer
+                    minimum: 0
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ArenaEvents'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
     post:
       summary: Create a new ArenaEvents
       operationId: createArenaEvents
       tags: [ArenaEvents]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       requestBody:
         required: true
         content:
@@ -87,28 +165,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArenaEvents'
-  /v1/ticket-bookings:
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/ticket-bookings:
     get:
-      summary: List TicketBookings records
+      summary: List TicketBookings records (Paginated & Filtered)
       operationId: listTicketBookingss
       tags: [TicketBookings]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/StatusFilterParam'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       responses:
         '200':
           description: Paginated list of TicketBookings items
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TicketBookings'
+                type: object
+                required: [entity, table, total, limit, offset, items]
+                properties:
+                  entity:
+                    type: string
+                  table:
+                    type: string
+                  total:
+                    type: integer
+                    minimum: 0
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TicketBookings'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
     post:
       summary: Create a new TicketBookings
       operationId: createTicketBookings
       tags: [TicketBookings]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       requestBody:
         required: true
         content:
@@ -122,28 +245,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TicketBookings'
-  /v1/memberships:
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/memberships:
     get:
-      summary: List Memberships records
+      summary: List Memberships records (Paginated & Filtered)
       operationId: listMembershipss
       tags: [Memberships]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/StatusFilterParam'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       responses:
         '200':
           description: Paginated list of Memberships items
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Memberships'
+                type: object
+                required: [entity, table, total, limit, offset, items]
+                properties:
+                  entity:
+                    type: string
+                  table:
+                    type: string
+                  total:
+                    type: integer
+                    minimum: 0
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Memberships'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
     post:
       summary: Create a new Memberships
       operationId: createMemberships
       tags: [Memberships]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       requestBody:
         required: true
         content:
@@ -157,28 +325,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Memberships'
-  /v1/training-institutes:
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/training-institutes:
     get:
-      summary: List TrainingInstitutes records
+      summary: List TrainingInstitutes records (Paginated & Filtered)
       operationId: listTrainingInstitutess
       tags: [TrainingInstitutes]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/StatusFilterParam'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       responses:
         '200':
           description: Paginated list of TrainingInstitutes items
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TrainingInstitutes'
+                type: object
+                required: [entity, table, total, limit, offset, items]
+                properties:
+                  entity:
+                    type: string
+                  table:
+                    type: string
+                  total:
+                    type: integer
+                    minimum: 0
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TrainingInstitutes'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
     post:
       summary: Create a new TrainingInstitutes
       operationId: createTrainingInstitutes
       tags: [TrainingInstitutes]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       requestBody:
         required: true
         content:
@@ -192,28 +405,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TrainingInstitutes'
-  /v1/academy-lane-allocations:
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/academy-lane-allocations:
     get:
-      summary: List AcademyLaneAllocations records
+      summary: List AcademyLaneAllocations records (Paginated & Filtered)
       operationId: listAcademyLaneAllocationss
       tags: [AcademyLaneAllocations]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/StatusFilterParam'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       responses:
         '200':
           description: Paginated list of AcademyLaneAllocations items
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AcademyLaneAllocations'
+                type: object
+                required: [entity, table, total, limit, offset, items]
+                properties:
+                  entity:
+                    type: string
+                  table:
+                    type: string
+                  total:
+                    type: integer
+                    minimum: 0
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AcademyLaneAllocations'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
     post:
       summary: Create a new AcademyLaneAllocations
       operationId: createAcademyLaneAllocations
       tags: [AcademyLaneAllocations]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       requestBody:
         required: true
         content:
@@ -227,28 +485,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AcademyLaneAllocations'
-  /v1/turnstile-access-logs:
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/turnstile-access-logs:
     get:
-      summary: List TurnstileAccessLogs records
+      summary: List TurnstileAccessLogs records (Paginated & Filtered)
       operationId: listTurnstileAccessLogss
       tags: [TurnstileAccessLogs]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/StatusFilterParam'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       responses:
         '200':
           description: Paginated list of TurnstileAccessLogs items
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TurnstileAccessLogs'
+                type: object
+                required: [entity, table, total, limit, offset, items]
+                properties:
+                  entity:
+                    type: string
+                  table:
+                    type: string
+                  total:
+                    type: integer
+                    minimum: 0
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TurnstileAccessLogs'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
     post:
       summary: Create a new TurnstileAccessLogs
       operationId: createTurnstileAccessLogs
       tags: [TurnstileAccessLogs]
       security:
         - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
       requestBody:
         required: true
         content:
@@ -262,94 +565,526 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TurnstileAccessLogs'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/seat-locks:
+    post:
+      summary: Acquire Atomic 8-Minute Distributed Seat Lock in Azure Cache for Redis Enterprise
+      operationId: acquireSeatLock
+      tags: [Ticketing & Seat Locks]
+      security:
+        - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeatLockRequest'
+      responses:
+        '201':
+          description: Seat locked exclusively for 480 seconds (8-minute TTL)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatLockResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '409':
+          description: Seat already locked or sold (SEAT_ALREADY_LOCKED)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/ticket-bookings/confirm-checkout:
+    post:
+      summary: Confirm Seat Lock, Tokenize PCI-DSS 4.0 Payment via Azure Key Vault HSM & Issue QR Pass
+      operationId: confirmBookingCheckout
+      tags: [Ticketing & Seat Locks]
+      security:
+        - BearerAuth: []
+        - UaePassOIDC: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutConfirmRequest'
+      responses:
+        '200':
+          description: Payment tokenized, booking confirmed, and Signed QR pass hash issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutConfirmResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '409':
+          description: Seat lock expired or owned by another customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '429':
+          $ref: '#/components/responses/RateLimitExceededError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/turnstiles/validate-scan:
+    post:
+      summary: Sub-150ms Smart Turnstile & Poolside Kiosk NFC Wristband / QR Ticket Pass Validation
+      operationId: validateTurnstileScan
+      tags: [Smart Turnstiles & Access]
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CorrelationIdHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TurnstileScanRequest'
+      responses:
+        '200':
+          description: Credential validated in <150ms p99 and gate actuation signal returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TurnstileScanResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Pass expired, wrong zone tier, or anti-passback violation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /api/v1/notifications/wallet-pass:
+    post:
+      summary: Issue Signed Apple Wallet (.pkpass) / Google Wallet Pass & Dispatch Notification
+      operationId: issueWalletPass
+      tags: [Wallet Passes & Notifications]
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+        - $ref: '#/components/parameters/CorrelationIdHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletPassRequest'
+      responses:
+        '201':
+          description: Signed wallet pass generated and notification dispatched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletPassResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      description: Microsoft Entra External ID / B2B OAuth 2.0 JWT Bearer Token
+    UaePassOIDC:
+      type: openIdConnect
+      openIdConnectUrl: https://stg-id.uaepass.ae/idshub/.well-known/openid-configuration
+      description: UAE PASS National Digital Identity OIDC Federation
+  parameters:
+    IdempotencyKeyHeader:
+      name: Idempotency-Key
+      in: header
+      required: false
+      description: UUIDv4 key enforcing idempotent mutation retries across seat locks, payments, and bookings
+      schema:
+        type: string
+        format: uuid
+    CorrelationIdHeader:
+      name: X-Correlation-ID
+      in: header
+      required: false
+      description: Distributed W3C trace correlation identifier propagated to structured JSON logs
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 50
+    OffsetParam:
+      name: offset
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    StatusFilterParam:
+      name: status
+      in: query
+      required: false
+      schema:
+        type: string
+  responses:
+    BadRequestError:
+      description: Validation failure or malformed payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    UnauthorizedError:
+      description: Missing or invalid JWT Bearer / UAE PASS OIDC token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    ForbiddenError:
+      description: Insufficient RBAC role or anti-passback/zone access denial
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    ConflictError:
+      description: Resource state conflict (e.g., seat already locked/booked or pool bulkhead schedule overlap)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    RateLimitExceededError:
+      description: API Management rate limit or Championship Waiting Room throttle exceeded (429 Too Many Requests)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    ServiceUnavailableError:
+      description: Upstream dependency or circuit breaker open (503 Service Unavailable)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   schemas:
+    ProblemDetails:
+      type: object
+      required: [code, message, trace_id]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        detail:
+          type: string
+        trace_id:
+          type: string
+    SeatLockRequest:
+      type: object
+      required: [event_id, customer_email, seat_section, seat_row, seat_number, price_aed]
+      properties:
+        event_id:
+          type: string
+          format: uuid
+        customer_email:
+          type: string
+          format: email
+        seat_section:
+          type: string
+        seat_row:
+          type: string
+        seat_number:
+          type: string
+        price_aed:
+          type: number
+          minimum: 0
+        ttl_seconds:
+          type: integer
+          minimum: 60
+          maximum: 900
+          default: 480
+    SeatLockResponse:
+      type: object
+      required: [booking_id, lock_token, event_id, seat_key, ttl_seconds, lock_expires_at, booking_status]
+      properties:
+        booking_id:
+          type: string
+          format: uuid
+        lock_token:
+          type: string
+        event_id:
+          type: string
+          format: uuid
+        seat_key:
+          type: string
+        ttl_seconds:
+          type: integer
+        lock_expires_at:
+          type: string
+          format: date-time
+        booking_status:
+          type: string
+          enum: [LOCKED]
+    CheckoutConfirmRequest:
+      type: object
+      required: [booking_id, payment_instrument_token]
+      properties:
+        booking_id:
+          type: string
+          format: uuid
+        lock_token:
+          type: string
+        payment_instrument_token:
+          type: string
+          description: Raw gateway payment token to be HSM-tokenized via Azure Key Vault
+    CheckoutConfirmResponse:
+      type: object
+      required: [booking_id, booking_status, payment_ref, qr_pass_hash]
+      properties:
+        booking_id:
+          type: string
+          format: uuid
+        booking_status:
+          type: string
+          enum: [CONFIRMED]
+        payment_ref:
+          type: string
+        qr_pass_hash:
+          type: string
+        confirmed_at:
+          type: string
+          format: date-time
+    TurnstileScanRequest:
+      type: object
+      required: [zone_id, gate_number, scan_type, credential_payload]
+      properties:
+        zone_id:
+          type: string
+          format: uuid
+        gate_number:
+          type: string
+        scan_type:
+          type: string
+          enum: [NFC_WRISTBAND, QR_TICKET]
+        credential_payload:
+          type: string
+        kiosk_device_id:
+          type: string
+    TurnstileScanResponse:
+      type: object
+      required: [scan_id, zone_id, gate_number, scan_result, validation_latency_ms, cache_source, scanned_at]
+      properties:
+        scan_id:
+          type: string
+          format: uuid
+        zone_id:
+          type: string
+          format: uuid
+        member_id:
+          type: string
+          nullable: true
+        booking_id:
+          type: string
+          nullable: true
+        gate_number:
+          type: string
+        scan_result:
+          type: string
+          enum: [GRANTED_OPEN_GATE, DENIED_EXPIRED, DENIED_WRONG_ZONE, DENIED_ANTI_PASSBACK]
+        validation_latency_ms:
+          type: number
+        cache_source:
+          type: string
+        scanned_at:
+          type: string
+          format: date-time
+    WalletPassRequest:
+      type: object
+      required: [recipient_type, delivery_channels]
+      properties:
+        recipient_type:
+          type: string
+          enum: [TICKET_HOLDER, MEMBER]
+        booking_id:
+          type: string
+          nullable: true
+        member_id:
+          type: string
+          nullable: true
+        delivery_channels:
+          type: array
+          items:
+            type: string
+            enum: [APPLE_WALLET, GOOGLE_WALLET, WHATSAPP, SMS]
+    WalletPassResponse:
+      type: object
+      required: [notification_id, pkpass_download_url, delivery_status, issued_at]
+      properties:
+        notification_id:
+          type: string
+        pkpass_download_url:
+          type: string
+        delivery_status:
+          type: string
+        issued_at:
+          type: string
+          format: date-time
     VenuesAndZones:
       type: object
+      required: [zone_id, zone_name, facility_type, max_capacity, pool_bulkhead_mode, depth_meters, is_active, created_at, updated_at]
       properties:
         zone_id:
           type: string
+          format: uuid
         zone_name:
           type: string
         facility_type:
           type: string
+          enum: [olympic_pool_50m, diving_well_10m, main_arena_bowl, vip_lounge, training_court]
         max_capacity:
-          type: string
+          type: integer
+          minimum: 1
         pool_bulkhead_mode:
           type: string
+          enum: [50m_10_lanes_championship, 25m_20_lanes_short_course, diving_well_isolated]
         depth_meters:
-          type: string
+          type: number
+          minimum: 0
         is_active:
+          type: boolean
+        created_at:
           type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
     VenuesAndZonesCreate:
       type: object
+      required: [zone_name, facility_type, max_capacity, pool_bulkhead_mode, depth_meters]
       properties:
-        zone_id:
-          type: string
         zone_name:
           type: string
         facility_type:
           type: string
+          enum: [olympic_pool_50m, diving_well_10m, main_arena_bowl, vip_lounge, training_court]
         max_capacity:
-          type: string
+          type: integer
+          minimum: 1
         pool_bulkhead_mode:
           type: string
+          enum: [50m_10_lanes_championship, 25m_20_lanes_short_course, diving_well_isolated]
         depth_meters:
-          type: string
+          type: number
+          minimum: 0
         is_active:
-          type: string
+          type: boolean
     ArenaEvents:
       type: object
+      required: [event_id, zone_id, title, event_category, start_time, end_time, total_seats, status, created_at, updated_at]
       properties:
         event_id:
           type: string
+          format: uuid
         zone_id:
           type: string
+          format: uuid
         title:
           type: string
         event_category:
           type: string
         start_time:
           type: string
+          format: date-time
         end_time:
           type: string
+          format: date-time
         total_seats:
-          type: string
+          type: integer
+          minimum: 1
+          maximum: 15000
         status:
           type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
     ArenaEventsCreate:
       type: object
+      required: [zone_id, title, event_category, start_time, end_time, total_seats]
       properties:
-        event_id:
-          type: string
         zone_id:
           type: string
+          format: uuid
         title:
           type: string
         event_category:
           type: string
         start_time:
           type: string
+          format: date-time
         end_time:
           type: string
+          format: date-time
         total_seats:
-          type: string
+          type: integer
+          minimum: 1
+          maximum: 15000
         status:
           type: string
     TicketBookings:
       type: object
+      required: [booking_id, event_id, customer_email, seat_section, seat_row, seat_number, price_aed, lock_expires_at, qr_pass_hash, booking_status, created_at, updated_at]
       properties:
         booking_id:
           type: string
+          format: uuid
         event_id:
           type: string
+          format: uuid
         customer_email:
           type: string
+          format: email
         seat_section:
           type: string
         seat_row:
@@ -357,24 +1092,37 @@ components:
         seat_number:
           type: string
         price_aed:
-          type: string
+          type: number
+          minimum: 0
         lock_expires_at:
           type: string
+          format: date-time
         payment_ref:
           type: string
         qr_pass_hash:
           type: string
         booking_status:
           type: string
+          enum: [LOCKED, CONFIRMED, EXPIRED, REFUNDED]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
     TicketBookingsCreate:
       type: object
+      required: [event_id, customer_email, seat_section, seat_row, seat_number, price_aed]
       properties:
-        booking_id:
-          type: string
         event_id:
           type: string
+          format: uuid
         customer_email:
           type: string
+          format: email
         seat_section:
           type: string
         seat_row:
@@ -382,62 +1130,83 @@ components:
         seat_number:
           type: string
         price_aed:
-          type: string
+          type: number
+          minimum: 0
         lock_expires_at:
           type: string
+          format: date-time
         payment_ref:
           type: string
         qr_pass_hash:
           type: string
         booking_status:
           type: string
+          enum: [LOCKED, CONFIRMED, EXPIRED, REFUNDED]
     Memberships:
       type: object
+      required: [member_id, full_name, emirates_id_hash, tier, nfc_wristband_uid, valid_from, valid_until, auto_renew, status, created_at, updated_at]
       properties:
         member_id:
           type: string
+          format: uuid
         full_name:
           type: string
         emirates_id_hash:
           type: string
         tier:
           type: string
+          enum: [gold_aquatics, fitness_all_access, junior_athlete]
         nfc_wristband_uid:
           type: string
         valid_from:
           type: string
+          format: date
         valid_until:
           type: string
+          format: date
         auto_renew:
-          type: string
+          type: boolean
         status:
           type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
     MembershipsCreate:
       type: object
+      required: [full_name, emirates_id_hash, tier, nfc_wristband_uid, valid_from, valid_until]
       properties:
-        member_id:
-          type: string
         full_name:
           type: string
         emirates_id_hash:
           type: string
         tier:
           type: string
+          enum: [gold_aquatics, fitness_all_access, junior_athlete]
         nfc_wristband_uid:
           type: string
         valid_from:
           type: string
+          format: date
         valid_until:
           type: string
+          format: date
         auto_renew:
-          type: string
+          type: boolean
         status:
           type: string
     TrainingInstitutes:
       type: object
+      required: [institute_id, academy_name, trade_license_no, primary_contact_email, credit_limit_aed, discount_tier, created_at, updated_at]
       properties:
         institute_id:
           type: string
+          format: uuid
         academy_name:
           type: string
         trade_license_no:
@@ -446,15 +1215,25 @@ components:
           type: string
         primary_contact_email:
           type: string
+          format: email
         credit_limit_aed:
-          type: string
+          type: number
+          minimum: 0
         discount_tier:
           type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
     TrainingInstitutesCreate:
       type: object
+      required: [academy_name, trade_license_no, primary_contact_email, credit_limit_aed, discount_tier]
       properties:
-        institute_id:
-          type: string
         academy_name:
           type: string
         trade_license_no:
@@ -463,91 +1242,134 @@ components:
           type: string
         primary_contact_email:
           type: string
+          format: email
         credit_limit_aed:
-          type: string
+          type: number
+          minimum: 0
         discount_tier:
           type: string
     AcademyLaneAllocations:
       type: object
+      required: [allocation_id, institute_id, zone_id, coach_name, lane_or_court_numbers, session_date, start_slot, end_slot, pool_config_mode, trainees_count, invoice_status, created_at, updated_at]
       properties:
         allocation_id:
           type: string
+          format: uuid
         institute_id:
           type: string
+          format: uuid
         zone_id:
           type: string
+          format: uuid
         coach_name:
           type: string
         lane_or_court_numbers:
           type: string
         session_date:
           type: string
+          format: date
         start_slot:
           type: string
+          pattern: '^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$'
         end_slot:
           type: string
+          pattern: '^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$'
         pool_config_mode:
           type: string
+          enum: [50m_10_lanes_championship, 25m_20_lanes_short_course, diving_well_isolated]
         trainees_count:
-          type: string
+          type: integer
+          minimum: 1
         invoice_status:
           type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
     AcademyLaneAllocationsCreate:
       type: object
+      required: [institute_id, zone_id, coach_name, lane_or_court_numbers, session_date, start_slot, end_slot, pool_config_mode, trainees_count]
       properties:
-        allocation_id:
-          type: string
         institute_id:
           type: string
+          format: uuid
         zone_id:
           type: string
+          format: uuid
         coach_name:
           type: string
         lane_or_court_numbers:
           type: string
         session_date:
           type: string
+          format: date
         start_slot:
           type: string
+          pattern: '^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$'
         end_slot:
           type: string
+          pattern: '^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$'
         pool_config_mode:
           type: string
+          enum: [50m_10_lanes_championship, 25m_20_lanes_short_course, diving_well_isolated]
         trainees_count:
-          type: string
+          type: integer
+          minimum: 1
         invoice_status:
           type: string
     TurnstileAccessLogs:
       type: object
+      required: [scan_id, zone_id, gate_number, scan_result, scanned_at, created_at, updated_at]
       properties:
         scan_id:
           type: string
+          format: uuid
         zone_id:
           type: string
+          format: uuid
         member_id:
           type: string
+          format: uuid
         booking_id:
           type: string
+          format: uuid
         gate_number:
           type: string
         scan_result:
           type: string
+          enum: [GRANTED_OPEN_GATE, DENIED_EXPIRED, DENIED_WRONG_ZONE, DENIED_ANTI_PASSBACK]
         scanned_at:
           type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
     TurnstileAccessLogsCreate:
       type: object
+      required: [zone_id, gate_number, scan_result]
       properties:
-        scan_id:
-          type: string
         zone_id:
           type: string
+          format: uuid
         member_id:
           type: string
+          format: uuid
         booking_id:
           type: string
+          format: uuid
         gate_number:
           type: string
         scan_result:
           type: string
-        scanned_at:
-          type: string
+          enum: [GRANTED_OPEN_GATE, DENIED_EXPIRED, DENIED_WRONG_ZONE, DENIED_ANTI_PASSBACK]
