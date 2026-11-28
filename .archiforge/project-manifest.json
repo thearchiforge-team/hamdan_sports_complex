@@ -22,12 +22,12 @@
     "SOC 2 Type II",
     "ISO 27001"
   ],
-  "node_count": 0,
-  "edge_count": 0,
-  "erd_table_count": 2,
+  "node_count": 26,
+  "edge_count": 37,
+  "erd_table_count": 7,
   "checksums": {
-    "openapi_sha256_16": "b6e757367ca6bd76",
-    "hld_sha256_16": "d3f5bcb913fa190d"
+    "openapi_sha256_16": "704cb2c902430350",
+    "hld_sha256_16": "027e8766257a4c81"
   },
   "ide_integrations": {
     "antigravity": [
@@ -46,5 +46,5 @@
       "CLAUDE.md"
     ]
   },
-  "synchronized_at": "2026-11-26T14:41:14.449582Z"
+  "synchronized_at": "2026-11-28T08:44:21.964606Z"
 }
