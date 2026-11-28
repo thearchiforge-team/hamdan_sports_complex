@@ -1,7 +1,7 @@
 [project]
-name = "shared-team-blueprints"
+name = "hamdan-sports-complex-unified-arena-academy-plat"
 version = "0.1.0"
-description = "ArchiForge Governed FastAPI Service for Shared Team Blueprints"
+description = "ArchiForge Governed FastAPI Service for Hamdan Sports Complex Unified Arena & Academy Platform"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.115.0",

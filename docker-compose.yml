@@ -13,7 +13,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: local_dev_only_change_me
-      POSTGRES_DB: shared_team_blueprints
+      POSTGRES_DB: hamdan_sports_complex_unified_arena_academy_plat
     ports:
       - "5432:5432"
     volumes:
