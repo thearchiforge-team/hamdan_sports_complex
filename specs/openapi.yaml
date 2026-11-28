@@ -17,26 +17,26 @@ paths:
       responses:
         '200':
           description: Service healthy
-  /v1/service-records:
+  /v1/venues-and-zones:
     get:
-      summary: List ServiceRecord records
-      operationId: listServiceRecords
-      tags: [ServiceRecord]
+      summary: List VenuesAndZones records
+      operationId: listVenuesAndZoness
+      tags: [VenuesAndZones]
       security:
         - BearerAuth: []
       responses:
         '200':
-          description: Paginated list of ServiceRecord items
+          description: Paginated list of VenuesAndZones items
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ServiceRecord'
+                  $ref: '#/components/schemas/VenuesAndZones'
     post:
-      summary: Create a new ServiceRecord
-      operationId: createServiceRecord
-      tags: [ServiceRecord]
+      summary: Create a new VenuesAndZones
+      operationId: createVenuesAndZones
+      tags: [VenuesAndZones]
       security:
         - BearerAuth: []
       requestBody:
@@ -44,34 +44,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServiceRecordCreate'
+              $ref: '#/components/schemas/VenuesAndZonesCreate'
       responses:
         '201':
-          description: Created ServiceRecord
+          description: Created VenuesAndZones
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceRecord'
-  /v1/audit-events:
+                $ref: '#/components/schemas/VenuesAndZones'
+  /v1/arena-events:
     get:
-      summary: List AuditEvent records
-      operationId: listAuditEvents
-      tags: [AuditEvent]
+      summary: List ArenaEvents records
+      operationId: listArenaEventss
+      tags: [ArenaEvents]
       security:
         - BearerAuth: []
       responses:
         '200':
-          description: Paginated list of AuditEvent items
+          description: Paginated list of ArenaEvents items
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AuditEvent'
+                  $ref: '#/components/schemas/ArenaEvents'
     post:
-      summary: Create a new AuditEvent
-      operationId: createAuditEvent
-      tags: [AuditEvent]
+      summary: Create a new ArenaEvents
+      operationId: createArenaEvents
+      tags: [ArenaEvents]
       security:
         - BearerAuth: []
       requestBody:
@@ -79,14 +79,189 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AuditEventCreate'
+              $ref: '#/components/schemas/ArenaEventsCreate'
       responses:
         '201':
-          description: Created AuditEvent
+          description: Created ArenaEvents
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuditEvent'
+                $ref: '#/components/schemas/ArenaEvents'
+  /v1/ticket-bookings:
+    get:
+      summary: List TicketBookings records
+      operationId: listTicketBookingss
+      tags: [TicketBookings]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Paginated list of TicketBookings items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketBookings'
+    post:
+      summary: Create a new TicketBookings
+      operationId: createTicketBookings
+      tags: [TicketBookings]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketBookingsCreate'
+      responses:
+        '201':
+          description: Created TicketBookings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketBookings'
+  /v1/memberships:
+    get:
+      summary: List Memberships records
+      operationId: listMembershipss
+      tags: [Memberships]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Paginated list of Memberships items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Memberships'
+    post:
+      summary: Create a new Memberships
+      operationId: createMemberships
+      tags: [Memberships]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembershipsCreate'
+      responses:
+        '201':
+          description: Created Memberships
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memberships'
+  /v1/training-institutes:
+    get:
+      summary: List TrainingInstitutes records
+      operationId: listTrainingInstitutess
+      tags: [TrainingInstitutes]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Paginated list of TrainingInstitutes items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainingInstitutes'
+    post:
+      summary: Create a new TrainingInstitutes
+      operationId: createTrainingInstitutes
+      tags: [TrainingInstitutes]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingInstitutesCreate'
+      responses:
+        '201':
+          description: Created TrainingInstitutes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingInstitutes'
+  /v1/academy-lane-allocations:
+    get:
+      summary: List AcademyLaneAllocations records
+      operationId: listAcademyLaneAllocationss
+      tags: [AcademyLaneAllocations]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Paginated list of AcademyLaneAllocations items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcademyLaneAllocations'
+    post:
+      summary: Create a new AcademyLaneAllocations
+      operationId: createAcademyLaneAllocations
+      tags: [AcademyLaneAllocations]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcademyLaneAllocationsCreate'
+      responses:
+        '201':
+          description: Created AcademyLaneAllocations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademyLaneAllocations'
+  /v1/turnstile-access-logs:
+    get:
+      summary: List TurnstileAccessLogs records
+      operationId: listTurnstileAccessLogss
+      tags: [TurnstileAccessLogs]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Paginated list of TurnstileAccessLogs items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TurnstileAccessLogs'
+    post:
+      summary: Create a new TurnstileAccessLogs
+      operationId: createTurnstileAccessLogs
+      tags: [TurnstileAccessLogs]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TurnstileAccessLogsCreate'
+      responses:
+        '201':
+          description: Created TurnstileAccessLogs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TurnstileAccessLogs'
 components:
   securitySchemes:
     BearerAuth:
@@ -94,71 +269,285 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    ServiceRecord:
+    VenuesAndZones:
       type: object
       properties:
-        id:
+        zone_id:
           type: string
-          format: uuid
-        external_ref:
+        zone_name:
           type: string
-        status:
+        facility_type:
           type: string
-        metadata_json:
-          type: object
-        created_at:
+        max_capacity:
           type: string
-          format: date-time
-        updated_at:
+        pool_bulkhead_mode:
           type: string
-          format: date-time
-    ServiceRecordCreate:
+        depth_meters:
+          type: string
+        is_active:
+          type: string
+    VenuesAndZonesCreate:
       type: object
       properties:
-        id:
+        zone_id:
           type: string
-          format: uuid
-        external_ref:
+        zone_name:
           type: string
-        status:
+        facility_type:
           type: string
-        metadata_json:
-          type: object
-        created_at:
+        max_capacity:
           type: string
-          format: date-time
-        updated_at:
+        pool_bulkhead_mode:
           type: string
-          format: date-time
-    AuditEvent:
-      type: object
-      properties:
-        event_id:
+        depth_meters:
           type: string
-          format: uuid
-        record_id:
+        is_active:
           type: string
-          format: uuid
-        actor_id:
-          type: string
-        action_type:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-    AuditEventCreate:
+    ArenaEvents:
       type: object
       properties:
         event_id:
           type: string
-          format: uuid
-        record_id:
+        zone_id:
           type: string
-          format: uuid
-        actor_id:
+        title:
           type: string
-        action_type:
+        event_category:
           type: string
-        created_at:
+        start_time:
           type: string
-          format: date-time
+        end_time:
+          type: string
+        total_seats:
+          type: string
+        status:
+          type: string
+    ArenaEventsCreate:
+      type: object
+      properties:
+        event_id:
+          type: string
+        zone_id:
+          type: string
+        title:
+          type: string
+        event_category:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+        total_seats:
+          type: string
+        status:
+          type: string
+    TicketBookings:
+      type: object
+      properties:
+        booking_id:
+          type: string
+        event_id:
+          type: string
+        customer_email:
+          type: string
+        seat_section:
+          type: string
+        seat_row:
+          type: string
+        seat_number:
+          type: string
+        price_aed:
+          type: string
+        lock_expires_at:
+          type: string
+        payment_ref:
+          type: string
+        qr_pass_hash:
+          type: string
+        booking_status:
+          type: string
+    TicketBookingsCreate:
+      type: object
+      properties:
+        booking_id:
+          type: string
+        event_id:
+          type: string
+        customer_email:
+          type: string
+        seat_section:
+          type: string
+        seat_row:
+          type: string
+        seat_number:
+          type: string
+        price_aed:
+          type: string
+        lock_expires_at:
+          type: string
+        payment_ref:
+          type: string
+        qr_pass_hash:
+          type: string
+        booking_status:
+          type: string
+    Memberships:
+      type: object
+      properties:
+        member_id:
+          type: string
+        full_name:
+          type: string
+        emirates_id_hash:
+          type: string
+        tier:
+          type: string
+        nfc_wristband_uid:
+          type: string
+        valid_from:
+          type: string
+        valid_until:
+          type: string
+        auto_renew:
+          type: string
+        status:
+          type: string
+    MembershipsCreate:
+      type: object
+      properties:
+        member_id:
+          type: string
+        full_name:
+          type: string
+        emirates_id_hash:
+          type: string
+        tier:
+          type: string
+        nfc_wristband_uid:
+          type: string
+        valid_from:
+          type: string
+        valid_until:
+          type: string
+        auto_renew:
+          type: string
+        status:
+          type: string
+    TrainingInstitutes:
+      type: object
+      properties:
+        institute_id:
+          type: string
+        academy_name:
+          type: string
+        trade_license_no:
+          type: string
+        federation_affiliation:
+          type: string
+        primary_contact_email:
+          type: string
+        credit_limit_aed:
+          type: string
+        discount_tier:
+          type: string
+    TrainingInstitutesCreate:
+      type: object
+      properties:
+        institute_id:
+          type: string
+        academy_name:
+          type: string
+        trade_license_no:
+          type: string
+        federation_affiliation:
+          type: string
+        primary_contact_email:
+          type: string
+        credit_limit_aed:
+          type: string
+        discount_tier:
+          type: string
+    AcademyLaneAllocations:
+      type: object
+      properties:
+        allocation_id:
+          type: string
+        institute_id:
+          type: string
+        zone_id:
+          type: string
+        coach_name:
+          type: string
+        lane_or_court_numbers:
+          type: string
+        session_date:
+          type: string
+        start_slot:
+          type: string
+        end_slot:
+          type: string
+        pool_config_mode:
+          type: string
+        trainees_count:
+          type: string
+        invoice_status:
+          type: string
+    AcademyLaneAllocationsCreate:
+      type: object
+      properties:
+        allocation_id:
+          type: string
+        institute_id:
+          type: string
+        zone_id:
+          type: string
+        coach_name:
+          type: string
+        lane_or_court_numbers:
+          type: string
+        session_date:
+          type: string
+        start_slot:
+          type: string
+        end_slot:
+          type: string
+        pool_config_mode:
+          type: string
+        trainees_count:
+          type: string
+        invoice_status:
+          type: string
+    TurnstileAccessLogs:
+      type: object
+      properties:
+        scan_id:
+          type: string
+        zone_id:
+          type: string
+        member_id:
+          type: string
+        booking_id:
+          type: string
+        gate_number:
+          type: string
+        scan_result:
+          type: string
+        scanned_at:
+          type: string
+    TurnstileAccessLogsCreate:
+      type: object
+      properties:
+        scan_id:
+          type: string
+        zone_id:
+          type: string
+        member_id:
+          type: string
+        booking_id:
+          type: string
+        gate_number:
+          type: string
+        scan_result:
+          type: string
+        scanned_at:
+          type: string

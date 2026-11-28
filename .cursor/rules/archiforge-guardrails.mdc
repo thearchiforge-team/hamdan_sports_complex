@@ -21,12 +21,41 @@ alwaysApply: true
   - **Data Residency:** Multi-AZ Regulated Region
 
 ## 2. Approved Architecture Topology Components
-- Core API & Persistence Tier
+- **Audience Web/Mobile Ticketing App** (`n-ext-users`):  [Zone: `private`]
+- **Member Wellness App & B2B Academy Portal** (`n-ext-members`):  [Zone: `private`]
+- **Azure Front Door Premium (CDN & WAF)** (`n-frontdoor`):  [Zone: `private`]
+- **Microsoft Entra External ID (OIDC / UAE PASS)** (`n-entraid`):  [Zone: `private`]
+- **Smart Turnstiles & Poolside Kiosks (NFC/QR)** (`n-ext-turnstiles`):  [Zone: `private`]
+- **Azure Key Vault Premium HSM (PCI-DSS Vault)** (`n-keyvault`):  [Zone: `private`]
+- **Azure Monitor & Application Insights** (`n-monitor`):  [Zone: `private`]
+- **Azure API Management (APIM Gateway)** (`n-apim`):  [Zone: `private`]
+- **Azure Application Gateway (WAF v2)** (`n-appgw`):  [Zone: `private`]
+- **Azure IoT Hub (Turnstile & Timing Telemetry)** (`n-iot-hub`):  [Zone: `private`]
+- **Event & 3D Bowl Seat Inventory Service (AKS)** (`n-svc-events`):  [Zone: `private`]
+- **High-Concurrency Booking & Checkout Engine (AKS)** (`n-svc-booking`):  [Zone: `private`]
+- **Membership & Smart-Wristband Access Service (ACA)** (`n-svc-membership`):  [Zone: `private`]
+- **Academy & Pool Bulkhead Scheduling Service (AKS)** (`n-svc-academy`):  [Zone: `private`]
+- **Notification & Digital Wallet Pass Service (Functions)** (`n-svc-notify`):  [Zone: `private`]
+- **Azure Database for PostgreSQL Flexible Server (HA)** (`n-pg`):  [Zone: `private`]
+- **Azure Cache for Redis Enterprise (8-Min Seat Lock)** (`n-redis`):  [Zone: `private`]
+- **Azure Event Hubs / Service Bus (Domain Events)** (`n-eventhubs`):  [Zone: `private`]
+- **Azure Data Lake Storage Gen2 (Venue Analytics)** (`n-adls`):  [Zone: `private`]
+- **venues_and_zones** (`venues_and_zones`):  [Zone: `private`]
+- **arena_events** (`arena_events`):  [Zone: `private`]
+- **ticket_bookings** (`ticket_bookings`):  [Zone: `private`]
+- **memberships** (`memberships`):  [Zone: `private`]
+- **training_institutes** (`training_institutes`):  [Zone: `private`]
+- **academy_lane_allocations** (`academy_lane_allocations`):  [Zone: `private`]
 
 ## 3. Canonical Data Model Entities (ERD Contract)
 All ORM models and SQL migrations MUST conform strictly to `db/migrations/001_initial_schema.sql`:
-- **`service_records`**: `id` (UUID), `external_ref` (VARCHAR(128)), `status` (VARCHAR(32)), `metadata_json` (JSONB), `created_at` (TIMESTAMPTZ), `updated_at` (TIMESTAMPTZ)
-- **`audit_events`**: `event_id` (UUID), `record_id` (UUID), `actor_id` (VARCHAR(128)), `action_type` (VARCHAR(64)), `created_at` (TIMESTAMPTZ)
+- **`venues_and_zones`**: `zone_id` (VARCHAR(255)), `zone_name` (VARCHAR(255)), `facility_type` (VARCHAR(255)), `max_capacity` (VARCHAR(255)), `pool_bulkhead_mode` (VARCHAR(255)), `depth_meters` (VARCHAR(255)), `is_active` (VARCHAR(255))
+- **`arena_events`**: `event_id` (VARCHAR(255)), `zone_id` (VARCHAR(255)), `title` (VARCHAR(255)), `event_category` (VARCHAR(255)), `start_time` (VARCHAR(255)), `end_time` (VARCHAR(255)), `total_seats` (VARCHAR(255)), `status` (VARCHAR(255))
+- **`ticket_bookings`**: `booking_id` (VARCHAR(255)), `event_id` (VARCHAR(255)), `customer_email` (VARCHAR(255)), `seat_section` (VARCHAR(255)), `seat_row` (VARCHAR(255)), `seat_number` (VARCHAR(255)), `price_aed` (VARCHAR(255)), `lock_expires_at` (VARCHAR(255)), `payment_ref` (VARCHAR(255)), `qr_pass_hash` (VARCHAR(255))
+- **`memberships`**: `member_id` (VARCHAR(255)), `full_name` (VARCHAR(255)), `emirates_id_hash` (VARCHAR(255)), `tier` (VARCHAR(255)), `nfc_wristband_uid` (VARCHAR(255)), `valid_from` (VARCHAR(255)), `valid_until` (VARCHAR(255)), `auto_renew` (VARCHAR(255)), `status` (VARCHAR(255))
+- **`training_institutes`**: `institute_id` (VARCHAR(255)), `academy_name` (VARCHAR(255)), `trade_license_no` (VARCHAR(255)), `federation_affiliation` (VARCHAR(255)), `primary_contact_email` (VARCHAR(255)), `credit_limit_aed` (VARCHAR(255)), `discount_tier` (VARCHAR(255))
+- **`academy_lane_allocations`**: `allocation_id` (VARCHAR(255)), `institute_id` (VARCHAR(255)), `zone_id` (VARCHAR(255)), `coach_name` (VARCHAR(255)), `lane_or_court_numbers` (VARCHAR(255)), `session_date` (VARCHAR(255)), `start_slot` (VARCHAR(255)), `end_slot` (VARCHAR(255)), `pool_config_mode` (VARCHAR(255)), `trainees_count` (VARCHAR(255))
+- **`turnstile_access_logs`**: `scan_id` (VARCHAR(255)), `zone_id` (VARCHAR(255)), `member_id` (VARCHAR(255)), `booking_id` (VARCHAR(255)), `gate_number` (VARCHAR(255)), `scan_result` (VARCHAR(255)), `scanned_at` (VARCHAR(255))
 
 ## 4. Mandatory Coding Agent Rules (Antigravity / VS Code / Cursor / Claude Code)
 1. **Contract-First API Discipline:**
